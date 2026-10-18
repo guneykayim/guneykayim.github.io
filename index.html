@@ -19,23 +19,27 @@ a{overflow-wrap:anywhere}
 .wrap{max-width:980px;margin:0 auto;padding:38px 22px 70px}
 h2{font-size:15px;letter-spacing:2.2px;text-transform:uppercase;color:#68707c;margin:38px 0 16px;text-align:center}
 .about{max-width:680px;margin:0 auto 14px;font-size:17px;line-height:1.75;color:#384150;text-align:center}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:6px auto 0;max-width:680px}
 .card{background:#fff;border:1px solid #e3e6eb;border-radius:16px;padding:24px 22px;text-decoration:none;color:inherit;display:block;transition:transform .15s ease,border-color .15s ease}
 .card:hover{border-color:#0f2040;transform:translateY(-2px)}
 .card h3{margin:0 0 8px;font-size:19px;color:#0f2040}
 .card p{margin:0;font-size:14.5px;line-height:1.65;color:#5a6472}
 .card .go{display:inline-block;margin-top:14px;font-size:14px;font-weight:650;color:#0f2040}
-.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.chips span{background:#e9edf3;color:#24344d;border-radius:999px;padding:8px 14px;font-size:14px}
-.links{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center}
-.links a{color:#0f2040;font-weight:600;text-decoration:none;border-bottom:1px solid #b9c2cf;padding-bottom:2px;font-size:15.5px}
-.links a:hover{border-bottom-color:#0f2040}
+.findme-intro{text-align:center;font-size:16px;color:#384150;margin:0 0 18px}
+.socials{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:680px;margin:0 auto}
+.social{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e3e6eb;border-radius:16px;padding:16px 18px;text-decoration:none;color:inherit;transition:transform .15s ease,border-color .15s ease}
+.social:hover{border-color:#0f2040;transform:translateY(-2px)}
+.sicon{flex:none;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.stext{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sname{font-weight:650;font-size:16px;color:#0f2040}
+.ssub{font-size:13.5px;color:#5a6472;line-height:1.45}
+.sarrow{margin-left:auto;color:#98a1ad;font-weight:600}
 .consult{max-width:680px;margin:0 auto;text-align:center}
 .consult p{font-size:16px;line-height:1.7;color:#384150;margin:0 0 16px}
 .consult a.cta{display:inline-block;background:#0f2040;color:#fff;text-decoration:none;font-weight:650;font-size:15.5px;padding:13px 26px;border-radius:999px}
 .consult a.cta:hover{background:#1a3260}
 footer{text-align:center;margin-top:48px;color:#9aa1ab;font-size:13px}
-@media(max-width:760px){.cards{grid-template-columns:1fr}.hero h1{font-size:36px}.hero{padding-top:48px}}
+@media(max-width:760px){.cards{grid-template-columns:1fr}.socials{grid-template-columns:1fr}.hero h1{font-size:36px}.hero{padding-top:48px}}
 @media(max-width:560px){.hero .role{font-size:16px;flex-wrap:nowrap;gap:7px}.hero .role .wa{width:17px;height:17px}}
 </style>
 </head>
@@ -47,23 +51,21 @@ footer{text-align:center;margin-top:48px;color:#9aa1ab;font-size:13px}
 </header>
 <main class="wrap">
   <h2>About</h2>
-  <p class="about"><span id="years-exp">~17</span> years as a software engineer — I’ve been working since 2009. I started in Türkiye, at startups and corporates working on computer vision, and moved to the UK in 2015. Over my career I’ve also spent 2+ years managing a team.</p>
+  <p class="about"><span id="years-exp">~17</span> years as a software engineer. I started in Türkiye, at startups and corporates working on computer vision, and moved to the UK in 2015. Over my career I’ve also spent 2+ years managing a team.</p>
   <p class="about">Before joining Meta in 2021, I was working as a Principal Computer Vision Architect at Arm — a role I reached over my years there. At WhatsApp I’m now part of the Consumer Org, having previously been part of the Business Org.</p>
   <h2>Projects</h2>
   <div class="cards">
     <a class="card" href="https://blackjack.guneykayim.com"><h3>Blackjack</h3><p>A complete web blackjack game: multiple themes, recorded sounds, persistent bankroll, stats and history. No account, everything stays in your browser.</p><span class="go">Play →</span></a>
     <a class="card" href="https://kidsgames.guneykayim.com"><h3>Year 2 Maths Games</h3><p>Five free games plus a hub — number bonds, step counting, addition, grouping and a one-minute dash for 6–7 year olds. Progress stays on the device.</p><span class="go">Play →</span></a>
-    <a class="card" href="https://mindmap.guneykayim.com"><h3>Mindmap</h3><p>A simple mind-mapping tool that runs entirely in the browser.</p><span class="go">Open →</span></a>
   </div>
-  <h2>Interests</h2>
-  <div class="chips"><span>Distributed systems</span><span>Computer vision</span><span>3D printing</span><span>Building web games</span><span>Lately coding in Rust, C++ &amp; Python</span></div>
   <h2>Find me</h2>
-  <nav class="links">
-    <a href="https://github.com/guneykayim">GitHub</a>
-    <a href="https://bsky.app/profile/guney.bsky.social">Bluesky</a>
-    <a href="https://www.threads.com/@guneykayim">Threads</a>
-    <a href="https://open.substack.com/pub/guneyolsaneyapardi">Writing in Turkish · Substack</a>
-  </nav>
+  <p class="findme-intro">I’m around the internet — come and say hello:</p>
+  <div class="socials">
+    <a class="social" href="https://github.com/guneykayim"><span class="sicon" style="background:#18171714"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="#181717" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span><span class="stext"><span class="sname">GitHub</span><span class="ssub">@guneykayim · Code, games and side projects</span></span><span class="sarrow">→</span></a>
+    <a class="social" href="https://bsky.app/profile/guney.bsky.social"><span class="sicon" style="background:#0285FF14"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="#0285FF" d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/></svg></span><span class="stext"><span class="sname">Bluesky</span><span class="ssub">guney.bsky.social · Short posts and updates</span></span><span class="sarrow">→</span></a>
+    <a class="social" href="https://www.threads.com/@guneykayim"><span class="sicon" style="background:#00000014"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="#000000" d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z"/></svg></span><span class="stext"><span class="sname">Threads</span><span class="ssub">@guneykayim · Photos, 3D printing and everyday bits</span></span><span class="sarrow">→</span></a>
+    <a class="social" href="https://open.substack.com/pub/guneyolsaneyapardi"><span class="sicon" style="background:#FF671914"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="#FF6719" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg></span><span class="stext"><span class="sname">Substack</span><span class="ssub">guneyolsaneyapardi · Writing in Turkish</span></span><span class="sarrow">→</span></a>
+  </div>
   <h2>Consultation</h2>
   <div class="consult">
     <p>I offer paid consultation calls — book a time that suits you.</p>
