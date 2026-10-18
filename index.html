@@ -47,6 +47,27 @@ a{overflow-wrap:anywhere}.variant{display:none}.variant.active{display:block}
 .vb footer{text-align:center;margin-top:44px;font-size:14px;color:#7a828e}
 .vb footer a{color:#0f2040;font-weight:600;text-decoration:none;margin:0 10px}
 @media(max-width:760px){.vb .cards{grid-template-columns:1fr}.vb .hero h1{font-size:36px}.vb .hero{padding-top:48px}}
+/* ---------- Variant C : Notes / editorial ---------- */
+.vc{background:#faf7f1;color:#221f1a;min-height:100vh;font-family:Georgia,"Times New Roman",serif}
+.vc .wrap{max-width:1020px;margin:0 auto;padding:56px 22px 110px}
+.vc header.top{border-bottom:3px double #c9c0ae;padding-bottom:26px;text-align:center}
+.vc h1{font-size:48px;margin:0 0 10px;letter-spacing:-1px;font-weight:700}
+.vc .role{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;letter-spacing:1.6px;text-transform:uppercase;color:#8a7f68;margin:0}
+.vc .grid{display:grid;grid-template-columns:1fr 300px;gap:44px;margin-top:36px;text-align:left}
+.vc h2{font-size:24px;margin:0 0 14px;border-bottom:1px solid #ddd3bf;padding-bottom:8px}
+.vc p{font-size:16.5px;line-height:1.8;color:#3d382f}
+.vc .note{padding:18px 0;border-bottom:1px solid #e7dfcd}
+.vc .note:first-of-type{padding-top:4px}
+.vc .note .k{font-family:-apple-system,sans-serif;font-size:12px;letter-spacing:1.8px;text-transform:uppercase;color:#a08c5f}
+.vc .note h3{font-size:20px;margin:6px 0 6px}
+.vc .note p{margin:0;font-size:15.5px}
+.vc aside .box{background:#fff;border:1px solid #e7dfcd;border-radius:10px;padding:20px;margin-bottom:18px}
+.vc aside h3{margin:0 0 10px;font-size:17px}
+.vc aside p,.vc aside li{font-size:14.5px;line-height:1.7;color:#4a453c}
+.vc aside ul{margin:0;padding-left:18px}
+.vc aside a{color:#6d5620}
+.vc footer{margin-top:44px;text-align:center;font-family:-apple-system,sans-serif;font-size:13px;color:#99917f}
+@media(max-width:820px){.vc .grid{grid-template-columns:1fr}.vc h1{font-size:36px}}
 /* ---------- Review switcher ---------- */
 .reviewbar{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:50;background:rgba(15,20,32,.92);color:#fff;border-radius:999px;padding:7px 8px;display:flex;gap:4px;align-items:center;box-shadow:0 8px 28px rgba(0,0,0,.28);font-size:13px;white-space:nowrap;max-width:calc(100vw - 20px)}
 .reviewbar span{padding:0 8px 0 10px;color:#aeb8c8}
@@ -105,6 +126,36 @@ a{overflow-wrap:anywhere}.variant{display:none}.variant.active{display:block}
       <a href="https://bsky.app/profile/guney.bsky.social">Bluesky</a>
       <div style="margin-top:14px;color:#9aa1ab;font-size:13px">© 2026 Güney Kayım</div>
     </footer>
+  </div>
+</main>
+<!-- ================= VARIANT C ================= -->
+<main class="variant vc" id="vC">
+  <div class="wrap">
+    <header class="top">
+      <h1>Güney Kayım</h1>
+      <p class="role">Backend Engineer · WhatsApp, Meta · UK</p>
+    </header>
+    <div class="grid">
+      <div>
+        <h2>Notes</h2>
+        <p style="margin-top:0;color:#7a7261;font-size:15px">Occasional writing — the layout below shows the topics this section is planned for. Nothing here is published yet.</p>
+        <article class="note"><div class="k">Distributed Systems · Planned</div><h3>What Erlang teaches you about building for scale</h3><p>Notes from working on WhatsApp backend systems — supervision, failure as a normal case, and why “let it crash” is a design philosophy, not negligence.</p></article>
+        <article class="note"><div class="k">Career · Planned</div><h3>From computer vision to backend</h3><p>Seven years of research in Türkiye, principal architect at Arm, then a deliberate switch to backend in 2021. What carried over, and what I had to relearn.</p></article>
+        <article class="note"><div class="k">Side Projects · Planned</div><h3>Building maths games for Year 2</h3><p>How five small games and a hub got designed, tested by their toughest reviewer, and shipped — each on its own subdomain.</p></article>
+        <article class="note"><div class="k">Making · Planned</div><h3>3D printing notes</h3><p>Practical prints, failures, and what I’d do differently — an occasional log from the workbench.</p></article>
+        <h2 style="margin-top:38px">Projects</h2>
+        <p><a href="https://blackjack.guneykayim.com">Blackjack</a> — a complete web blackjack game.<br>
+        <a href="https://kidsgames.guneykayim.com">Year 2 Maths Games</a> — five free games and a hub for 6–7 year olds.<br>
+        <a href="https://mindmap.guneykayim.com">Mindmap</a> — a simple browser mind-mapping tool.</p>
+      </div>
+      <aside>
+        <div class="box"><h3>About</h3><p>Fifteen years as a software and research engineer. Computer vision and biometrics in Türkiye, Principal Computer Vision Architect at Arm after moving to the UK in 2015, then backend at Meta from 2021.</p></div>
+        <div class="box"><h3>Book</h3><p><em>Evaluation of 2D Local Image Descriptors and Feature Encoding Methods</em> (2016), with Ceyhun B. Akgül — plus 4+ papers on computer vision and biometrics.</p></div>
+        <div class="box"><h3>Elsewhere</h3><ul><li><a href="https://github.com/guneykayim">GitHub</a></li><li><a href="https://bsky.app/profile/guney.bsky.social">Bluesky</a></li></ul></div>
+        <div class="box"><h3>Interests</h3><ul><li>Erlang &amp; distributed systems</li><li>3D printing</li><li>Small, finished web things</li></ul></div>
+      </aside>
+    </div>
+    <footer>© 2026 Güney Kayım</footer>
   </div>
 </main>
 <nav class="reviewbar" aria-label="Design review switcher">
