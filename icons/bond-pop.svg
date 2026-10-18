@@ -1,1 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Bond Pop icon"><rect x="2" y="2" width="60" height="60" rx="14" fill="#0284c7"></rect><circle cx="32" cy="34" r="17" fill="none" stroke="#ffffff" stroke-width="4"></circle><text x="32" y="41" text-anchor="middle" font-size="16" font-weight="800" fill="#ffffff" font-family="inherit">10</text><circle cx="25" cy="27" r="3.5" fill="#ffffff" opacity="0.8"></circle></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#0369a1"/>
+    </linearGradient>
+    <radialGradient id="bub" cx="0.35" cy="0.3" r="0.9">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="0.6" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.22"/>
+    </radialGradient>
+  </defs>
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="url(#bg)"/>
+  <ellipse cx="32" cy="6" rx="26" ry="10" fill="#ffffff" opacity="0.10"/>
+  <circle cx="49" cy="17" r="8" fill="url(#bub)" stroke="#ffffff" stroke-opacity="0.7" stroke-width="1.6"/>
+  <ellipse cx="46" cy="14" rx="2.6" ry="1.5" fill="#ffffff" opacity="0.85" transform="rotate(-30 46 14)"/>
+  <circle cx="51" cy="47" r="5.5" fill="url(#bub)" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.4"/>
+  <ellipse cx="49" cy="45" rx="1.7" ry="1" fill="#ffffff" opacity="0.8" transform="rotate(-30 49 45)"/>
+  <circle cx="27" cy="35" r="17" fill="url(#bub)" stroke="#ffffff" stroke-width="3"/>
+  <ellipse cx="20" cy="27" rx="5.5" ry="3.2" fill="#ffffff" opacity="0.9" transform="rotate(-32 20 27)"/>
+  <text x="27" y="41.5" text-anchor="middle" font-family="Verdana, Arial, sans-serif" font-size="15" font-weight="bold" fill="#ffffff">10</text>
+  <path d="M52 30.5l1.3 3.7 3.7 1.3-3.7 1.3L52 40.5l-1.3-3.7-3.7-1.3 3.7-1.3z" fill="#ffffff" opacity="0.9"/>
+</svg>
