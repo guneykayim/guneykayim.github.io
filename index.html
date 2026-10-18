@@ -23,6 +23,30 @@ a{overflow-wrap:anywhere}.variant{display:none}.variant.active{display:block}
 .va .projects-line{margin-top:34px;font-size:15px;line-height:1.9;color:#555}
 .va .projects-line a{color:#141414}
 .va footer{margin-top:56px;font-size:13px;color:#999}
+/* ---------- Variant B : Showcase ---------- */
+.vb{background:#f5f6f8;color:#17202b;min-height:100vh}
+.vb .hero{background:#0f2040;color:#fff;padding:64px 22px 52px;text-align:center}
+.vb .hero h1{font-size:46px;letter-spacing:-1.5px;margin:0 0 12px;line-height:1.05}
+.vb .hero .role{font-size:19px;color:#c7d2e4;margin:0 0 10px}
+.vb .hero .tag{font-size:15px;color:#8fa1bd;margin:0}
+.vb .wrap{max-width:980px;margin:0 auto;padding:38px 22px 110px}
+.vb h2{font-size:15px;letter-spacing:2.2px;text-transform:uppercase;color:#68707c;margin:38px 0 16px;text-align:center}
+.vb .about{max-width:680px;margin:0 auto;font-size:17px;line-height:1.75;color:#384150;text-align:center}
+.vb .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px}
+.vb .card{background:#fff;border:1px solid #e3e6eb;border-radius:16px;padding:24px 22px;text-decoration:none;color:inherit;display:block}
+.vb .card:hover{border-color:#0f2040;transform:translateY(-2px)}
+.vb .card{transition:transform .15s ease,border-color .15s ease}
+.vb .card h3{margin:0 0 8px;font-size:19px;color:#0f2040}
+.vb .card p{margin:0;font-size:14.5px;line-height:1.65;color:#5a6472}
+.vb .card .go{display:inline-block;margin-top:14px;font-size:14px;font-weight:650;color:#0f2040}
+.vb .research{background:#fff;border:1px solid #e3e6eb;border-radius:16px;padding:26px;max-width:680px;margin:0 auto;text-align:center}
+.vb .research p{margin:0 0 10px;font-size:16px;line-height:1.7;color:#384150}
+.vb .research p:last-child{margin-bottom:0;color:#5a6472;font-size:15px}
+.vb .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.vb .chips span{background:#e9edf3;color:#24344d;border-radius:999px;padding:8px 14px;font-size:14px}
+.vb footer{text-align:center;margin-top:44px;font-size:14px;color:#7a828e}
+.vb footer a{color:#0f2040;font-weight:600;text-decoration:none;margin:0 10px}
+@media(max-width:760px){.vb .cards{grid-template-columns:1fr}.vb .hero h1{font-size:36px}.vb .hero{padding-top:48px}}
 /* ---------- Review switcher ---------- */
 .reviewbar{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:50;background:rgba(15,20,32,.92);color:#fff;border-radius:999px;padding:7px 8px;display:flex;gap:4px;align-items:center;box-shadow:0 8px 28px rgba(0,0,0,.28);font-size:13px;white-space:nowrap;max-width:calc(100vw - 20px)}
 .reviewbar span{padding:0 8px 0 10px;color:#aeb8c8}
@@ -51,6 +75,36 @@ a{overflow-wrap:anywhere}.variant{display:none}.variant.active{display:block}
       <a href="https://bsky.app/profile/guney.bsky.social">Bluesky</a>
     </nav>
     <footer>© 2026 Güney Kayım</footer>
+  </div>
+</main>
+<!-- ================= VARIANT B ================= -->
+<main class="variant vb" id="vB">
+  <header class="hero">
+    <h1>Güney Kayım</h1>
+    <p class="role">Backend Engineer at WhatsApp · Meta</p>
+    <p class="tag">Large-scale systems in Erlang · Previously computer vision at Arm · Based in the UK</p>
+  </header>
+  <div class="wrap">
+    <h2>About</h2>
+    <p class="about">Fifteen years as a software and research engineer. I started in Türkiye — startups and corporates working on computer vision and biometrics — moved to the UK in 2015, became a Principal Computer Vision Architect at Arm, then switched to backend at Meta in 2021, where I also spent 2+ years managing a team.</p>
+    <h2>Projects</h2>
+    <div class="cards">
+      <a class="card" href="https://blackjack.guneykayim.com"><h3>Blackjack</h3><p>A complete web blackjack game: multiple themes, recorded sounds, persistent bankroll, stats and history. No account, everything stays in your browser.</p><span class="go">Play →</span></a>
+      <a class="card" href="https://kidsgames.guneykayim.com"><h3>Year 2 Maths Games</h3><p>Five free games plus a hub — number bonds, step counting, addition, grouping and a one-minute dash for 6–7 year olds. Progress stays on the device.</p><span class="go">Play →</span></a>
+      <a class="card" href="https://mindmap.guneykayim.com"><h3>Mindmap</h3><p>A simple mind-mapping tool that runs entirely in the browser.</p><span class="go">Open →</span></a>
+    </div>
+    <h2>Research &amp; Writing</h2>
+    <div class="research">
+      <p><strong><em>Evaluation of 2D Local Image Descriptors and Feature Encoding Methods</em></strong> (2016)<br>Book, with Ceyhun B. Akgül</p>
+      <p>Plus 4+ published papers (2012–2016) on computer vision and biometrics.</p>
+    </div>
+    <h2>Interests</h2>
+    <div class="chips"><span>Erlang &amp; distributed systems</span><span>Computer vision</span><span>3D printing</span><span>Building web games</span></div>
+    <footer>
+      <a href="https://github.com/guneykayim">GitHub</a>
+      <a href="https://bsky.app/profile/guney.bsky.social">Bluesky</a>
+      <div style="margin-top:14px;color:#9aa1ab;font-size:13px">© 2026 Güney Kayım</div>
+    </footer>
   </div>
 </main>
 <nav class="reviewbar" aria-label="Design review switcher">
