@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Güney Kayım</title>
-<meta name="description" content="Güney Kayım — Backend Engineer at WhatsApp (Meta). Previously computer vision at Arm. Author and builder of small web games.">
+<meta name="description" content="Güney Kayım — Software Engineer at WhatsApp (Meta), Consumer Org. Based in Cambridge, UK. Previously computer vision at Arm.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f2040'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='34' font-weight='700' fill='white' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
 <style>
 *{box-sizing:border-box}
@@ -13,55 +13,66 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 a{overflow-wrap:anywhere}
 .hero{background:#0f2040;color:#fff;padding:64px 22px 52px;text-align:center}
 .hero h1{font-size:46px;letter-spacing:-1.5px;margin:0 0 12px;line-height:1.05}
-.hero .role{font-size:19px;color:#c7d2e4;margin:0 0 10px}
+.hero .role{font-size:19px;color:#c7d2e4;margin:0 0 10px;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
+.hero .role .wa{flex:none}
 .hero .tag{font-size:15px;color:#8fa1bd;margin:0}
 .wrap{max-width:980px;margin:0 auto;padding:38px 22px 70px}
 h2{font-size:15px;letter-spacing:2.2px;text-transform:uppercase;color:#68707c;margin:38px 0 16px;text-align:center}
-.about{max-width:680px;margin:0 auto;font-size:17px;line-height:1.75;color:#384150;text-align:center}
+.about{max-width:680px;margin:0 auto 14px;font-size:17px;line-height:1.75;color:#384150;text-align:center}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px}
 .card{background:#fff;border:1px solid #e3e6eb;border-radius:16px;padding:24px 22px;text-decoration:none;color:inherit;display:block;transition:transform .15s ease,border-color .15s ease}
 .card:hover{border-color:#0f2040;transform:translateY(-2px)}
 .card h3{margin:0 0 8px;font-size:19px;color:#0f2040}
 .card p{margin:0;font-size:14.5px;line-height:1.65;color:#5a6472}
 .card .go{display:inline-block;margin-top:14px;font-size:14px;font-weight:650;color:#0f2040}
-.research{background:#fff;border:1px solid #e3e6eb;border-radius:16px;padding:26px;max-width:680px;margin:0 auto;text-align:center}
-.research p{margin:0 0 10px;font-size:16px;line-height:1.7;color:#384150}
-.research p:last-child{margin-bottom:0;color:#5a6472;font-size:15px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .chips span{background:#e9edf3;color:#24344d;border-radius:999px;padding:8px 14px;font-size:14px}
-footer{text-align:center;margin-top:44px;font-size:14px;color:#7a828e}
-footer a{color:#0f2040;font-weight:600;text-decoration:none;margin:0 10px}
-footer .copy{margin-top:14px;color:#9aa1ab;font-size:13px}
+.links{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center}
+.links a{color:#0f2040;font-weight:600;text-decoration:none;border-bottom:1px solid #b9c2cf;padding-bottom:2px;font-size:15.5px}
+.links a:hover{border-bottom-color:#0f2040}
+.consult{max-width:680px;margin:0 auto;text-align:center}
+.consult p{font-size:16px;line-height:1.7;color:#384150;margin:0 0 16px}
+.consult a.cta{display:inline-block;background:#0f2040;color:#fff;text-decoration:none;font-weight:650;font-size:15.5px;padding:13px 26px;border-radius:999px}
+.consult a.cta:hover{background:#1a3260}
+footer{text-align:center;margin-top:48px;color:#9aa1ab;font-size:13px}
 @media(max-width:760px){.cards{grid-template-columns:1fr}.hero h1{font-size:36px}.hero{padding-top:48px}}
+@media(max-width:560px){.hero .role{font-size:16px;flex-wrap:nowrap;gap:7px}.hero .role .wa{width:17px;height:17px}}
 </style>
 </head>
 <body>
 <header class="hero">
   <h1>Güney Kayım</h1>
-  <p class="role">Backend Engineer at WhatsApp · Meta</p>
-  <p class="tag">Large-scale systems in Erlang · Previously computer vision at Arm · Based in the UK</p>
+  <p class="role"><svg class="wa" viewBox="0 0 24 24" width="20" height="20" aria-label="WhatsApp" role="img"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg><span>Software Engineer at WhatsApp · Meta</span></p>
+  <p class="tag">WhatsApp Consumer Org · Previously computer vision at Arm · Cambridge, UK</p>
 </header>
 <main class="wrap">
   <h2>About</h2>
-  <p class="about">Fifteen years as a software and research engineer. I started in Türkiye — startups and corporates working on computer vision and biometrics — moved to the UK in 2015, became a Principal Computer Vision Architect at Arm, then switched to backend at Meta in 2021, where I also spent 2+ years managing a team.</p>
+  <p class="about"><span id="years-exp">~17</span> years as a software engineer — I’ve been working since 2009. I started in Türkiye, at startups and corporates working on computer vision, and moved to the UK in 2015. Over my career I’ve also spent 2+ years managing a team.</p>
+  <p class="about">Before joining Meta in 2021, I was working as a Principal Computer Vision Architect at Arm — a role I reached over my years there. At WhatsApp I’m now part of the Consumer Org, having previously been part of the Business Org.</p>
   <h2>Projects</h2>
   <div class="cards">
     <a class="card" href="https://blackjack.guneykayim.com"><h3>Blackjack</h3><p>A complete web blackjack game: multiple themes, recorded sounds, persistent bankroll, stats and history. No account, everything stays in your browser.</p><span class="go">Play →</span></a>
     <a class="card" href="https://kidsgames.guneykayim.com"><h3>Year 2 Maths Games</h3><p>Five free games plus a hub — number bonds, step counting, addition, grouping and a one-minute dash for 6–7 year olds. Progress stays on the device.</p><span class="go">Play →</span></a>
     <a class="card" href="https://mindmap.guneykayim.com"><h3>Mindmap</h3><p>A simple mind-mapping tool that runs entirely in the browser.</p><span class="go">Open →</span></a>
   </div>
-  <h2>Research &amp; Writing</h2>
-  <div class="research">
-    <p><strong><em>Evaluation of 2D Local Image Descriptors and Feature Encoding Methods</em></strong> (2016)<br>Book, with Ceyhun B. Akgül</p>
-    <p>Plus 4+ published papers (2012–2016) on computer vision and biometrics.</p>
-  </div>
   <h2>Interests</h2>
-  <div class="chips"><span>Erlang &amp; distributed systems</span><span>Computer vision</span><span>3D printing</span><span>Building web games</span></div>
-  <footer>
+  <div class="chips"><span>Distributed systems</span><span>Computer vision</span><span>3D printing</span><span>Building web games</span><span>Lately coding in Rust, C++ &amp; Python</span></div>
+  <h2>Find me</h2>
+  <nav class="links">
     <a href="https://github.com/guneykayim">GitHub</a>
     <a href="https://bsky.app/profile/guney.bsky.social">Bluesky</a>
-    <div class="copy">© 2026 Güney Kayım</div>
-  </footer>
+    <a href="https://www.threads.com/@guneykayim">Threads</a>
+    <a href="https://open.substack.com/pub/guneyolsaneyapardi">Writing in Turkish · Substack</a>
+  </nav>
+  <h2>Consultation</h2>
+  <div class="consult">
+    <p>I offer paid consultation calls — book a time that suits you.</p>
+    <a class="cta" href="https://zcal.co/guney">Book a paid consultation call</a>
+  </div>
+  <footer>© 2026 Güney Kayım</footer>
 </main>
+<script>
+document.getElementById('years-exp').textContent = '~' + (new Date().getFullYear() - 2009);
+</script>
 </body>
 </html>
