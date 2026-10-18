@@ -3,11 +3,14 @@
 Source for Güney Kayım's personal site, served at https://guneykayim.com
 (and mirrored by GitHub Pages at https://guneykayim.github.io).
 
-Plain static HTML/CSS in a single `index.html` — no build step, no JavaScript.
+Plain static HTML/CSS in a single `index.html` — no build step. The only
+JavaScript calculates the years of experience dynamically
+(current year − 2009, displayed as `~<years> years`).
 
-The page has a hero header, an About section, project cards
-(Blackjack, Year 2 Maths Games, Mindmap), a Research & Writing section,
-interests, and links to GitHub and Bluesky.
+The page has a hero header with a small WhatsApp logo, an About section,
+project cards (Blackjack, Year 2 Maths Games, Mindmap), interests,
+a “Find me” link list (GitHub, Bluesky, Threads, and Turkish writing on
+Substack), and a Consultation section linking to Zcal for paid calls.
 
 ## Hosting
 
