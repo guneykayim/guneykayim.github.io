@@ -1,1 +1,74 @@
-Hello World...
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Güney Kayım</title>
+<meta name="description" content="Güney Kayım — Backend Engineer at WhatsApp (Meta). Previously computer vision at Arm. Author and builder of small web games.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f2040'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='34' font-weight='700' fill='white' text-anchor='middle'%3EG%3C/text%3E%3C/svg%3E">
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{overflow-wrap:anywhere}.variant{display:none}.variant.active{display:block}
+/* ---------- Variant A : Minimal ---------- */
+.va{background:#fff;color:#141414;min-height:100vh}
+.va .wrap{max-width:620px;margin:0 auto;padding:76px 22px 110px;text-align:center}
+.va h1{font-size:44px;line-height:1.05;letter-spacing:-1.5px;margin:0 0 14px;font-weight:750}
+.va .role{font-size:18px;color:#555;margin:0 0 8px}
+.va .place{font-size:15px;color:#888;margin:0 0 34px}
+.va hr{border:0;border-top:1px solid #e6e6e6;width:56px;margin:0 auto 34px}
+.va p.about{font-size:17px;line-height:1.75;color:#333;margin:0 0 22px;text-align:center}
+.va .links{margin-top:36px;display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center}
+.va .links a{color:#141414;text-decoration:none;border-bottom:1px solid #bbb;padding-bottom:2px;font-size:15px}
+.va .links a:hover{border-bottom-color:#141414}
+.va .projects-line{margin-top:34px;font-size:15px;line-height:1.9;color:#555}
+.va .projects-line a{color:#141414}
+.va footer{margin-top:56px;font-size:13px;color:#999}
+/* ---------- Review switcher ---------- */
+.reviewbar{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:50;background:rgba(15,20,32,.92);color:#fff;border-radius:999px;padding:7px 8px;display:flex;gap:4px;align-items:center;box-shadow:0 8px 28px rgba(0,0,0,.28);font-size:13px;white-space:nowrap;max-width:calc(100vw - 20px)}
+.reviewbar span{padding:0 8px 0 10px;color:#aeb8c8}
+.reviewbar a{color:#fff;text-decoration:none;padding:6px 12px;border-radius:999px}
+.reviewbar a.on{background:#fff;color:#111;font-weight:650}
+@media(max-width:560px){.va h1{font-size:36px}.va .wrap{padding-top:52px}.reviewbar span{display:none}}
+</style>
+</head>
+<body>
+<!-- ================= VARIANT A ================= -->
+<main class="variant va" id="vA">
+  <div class="wrap">
+    <h1>Güney Kayım</h1>
+    <p class="role">Backend Engineer at WhatsApp · Meta</p>
+    <p class="place">Based in the UK</p>
+    <hr>
+    <p class="about">I build large-scale backend systems, mostly in Erlang. Before joining Meta in London in 2021, I was a Principal Computer Vision Architect at Arm — and before that, a researcher and engineer in Türkiye working on computer vision and biometrics.</p>
+    <p class="about">I co-authored <em>Evaluation of 2D Local Image Descriptors and Feature Encoding Methods</em> (2016) and, in my spare time, I build small things for the web and tinker with 3D printing.</p>
+    <p class="projects-line">Things I’ve made:<br>
+      <a href="https://blackjack.guneykayim.com">Blackjack</a> ·
+      <a href="https://kidsgames.guneykayim.com">Year 2 Maths Games</a> ·
+      <a href="https://mindmap.guneykayim.com">Mindmap</a>
+    </p>
+    <nav class="links">
+      <a href="https://github.com/guneykayim">GitHub</a>
+      <a href="https://bsky.app/profile/guney.bsky.social">Bluesky</a>
+    </nav>
+    <footer>© 2026 Güney Kayım</footer>
+  </div>
+</main>
+<nav class="reviewbar" aria-label="Design review switcher">
+  <span>Review:</span>
+  <a href="#vA" data-r="vA">A · Minimal</a>
+  <a href="#vB" data-r="vB">B · Showcase</a>
+  <a href="#vC" data-r="vC">C · Notes</a>
+</nav>
+<script>
+function showVariant(){
+  var h=(location.hash||'#vA').replace('#','');
+  if(['vA','vB','vC'].indexOf(h)<0)h='vA';
+  document.querySelectorAll('.variant').forEach(function(el){el.classList.toggle('active',el.id===h)});
+  document.querySelectorAll('.reviewbar a').forEach(function(a){a.classList.toggle('on',a.dataset.r===h)});
+  document.title='Güney Kayım — '+h.replace('v','Variant ');
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',showVariant);showVariant();
+</script>
+</body>
+</html>
