@@ -71,10 +71,12 @@ footer{text-align:center;margin-top:48px;color:#9aa1ab;font-size:13px}
     <p>I offer paid consultation calls — book a time that suits you.</p>
     <a class="cta" href="https://zcal.co/guney">Book a paid consultation call</a>
   </div>
-  <footer>© 2026 Güney Kayım</footer>
+  <footer>© <span id="copy-year">2026</span> Güney Kayım</footer>
 </main>
 <script>
-document.getElementById('years-exp').textContent = '~' + (new Date().getFullYear() - 2009);
+var nowYear = new Date().getFullYear();
+document.getElementById('years-exp').textContent = '~' + (nowYear - 2009);
+document.getElementById('copy-year').textContent = nowYear;
 </script>
 </body>
 </html>
