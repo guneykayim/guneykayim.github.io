@@ -59,6 +59,7 @@ footer{text-align:center;margin-top:14px;color:#9aa1ab;font-size:13px}footer a{c
   <p class="about">Before joining Meta in 2021, I was working as a Principal Computer Vision Architect at Arm — a role I reached over my years there.</p>
   <h2>Projects</h2>
   <div class="cards">
+    <a class="card" href="https://tinkererlabs.co" data-track="labs"><img class="picon" src="icons/tinkerer-labs.png" alt="" width="48" height="48"><h3>Tinkerer Labs</h3><p>Independent software, built in balance: apps, tools and small products. Home of Tinkerer Analytics, privacy-first analytics with no cookies, no visitor profiles and honest daily counts.</p><span class="go">Visit →</span></a>
     <a class="card" href="https://blackjack.guneykayim.com" data-track="blackjack"><img class="picon" src="icons/blackjack.png" alt="" width="48" height="48"><h3>Blackjack</h3><p>A complete web blackjack game: multiple themes, recorded sounds, persistent bankroll, stats and history. No account, everything stays in your browser.</p><span class="go">Play →</span></a>
     <a class="card" href="https://games.guneykayim.com/all" data-track="games-all"><span class="picons"><img src="icons/snake-v2.png" alt="" width="40" height="40"><img src="icons/2048-v2.png" alt="" width="40" height="40"><img src="icons/minesweeper-v4.png" alt="" width="40" height="40"><img src="icons/solitaire-v2.png" alt="" width="40" height="40"><img src="icons/tetris.png" alt="" width="40" height="40"><img src="icons/pacman.png" alt="" width="40" height="40"><img src="icons/go.png" alt="" width="40" height="40"><img src="icons/backgammon.png" alt="" width="40" height="40"></span><h3>Games for everyone</h3><p>Eight timeless games — Snake, 2048, Minesweeper, Solitaire, Tetris, Pac-Man, Go and Backgammon — with seasonal themes and offline play. No account, everything stays in your browser.</p><span class="go">Play →</span></a>
     <a class="card" href="https://games.guneykayim.com/kids" data-track="games-kids"><span class="picons"><img src="icons/snakes-and-ladders-v2.png" alt="" width="40" height="40"><img src="icons/pokemon-names.png" alt="" width="40" height="40"><img src="icons/memory-cards.png" alt="" width="40" height="40"></span><h3>Games for kids</h3><p>Three games for younger players — Snakes and Ladders, a Pokémon name-guessing game and a memory matching game with five card themes. No ads, ever.</p><span class="go">Play →</span></a>
@@ -90,7 +91,7 @@ import { createTracker } from './tracker.js';
 const analytics = createTracker({
   endpoint: 'https://tinkerer-prod.guneykayim.workers.dev/api/event',
   siteToken: 'd9680806bf229d572615aa360a2b0f97',
-  propertySpec: { link: { values: ['github', 'bluesky', 'threads', 'substack', 'consultation', 'games-all', 'games-kids', 'games-edu', 'blackjack', 'coffee'] } },
+  propertySpec: { link: { values: ['github', 'bluesky', 'threads', 'substack', 'consultation', 'games-all', 'games-kids', 'games-edu', 'blackjack', 'labs', 'coffee'] } },
 });
 analytics.track('pageview');
 document.addEventListener('click', (e) => {
