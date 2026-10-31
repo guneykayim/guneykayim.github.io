@@ -91,7 +91,7 @@ import { createTracker } from './tracker.js';
 const analytics = createTracker({
   endpoint: 'https://tinkerer-prod.guneykayim.workers.dev/api/event',
   siteToken: 'd9680806bf229d572615aa360a2b0f97',
-  propertySpec: { link: { values: ['github', 'bluesky', 'threads', 'substack', 'consultation', 'games-all', 'games-kids', 'games-edu', 'blackjack', 'tinkerer', 'coffee'] } },
+  propertySpec: { link: { values: ['github', 'bluesky', 'threads', 'substack', 'consultation', 'games-all', 'games-kids', 'games-edu', 'blackjack', 'tinkerer', 'coffee'] }, path: { type: 'string', maxLength: 200 }, source: { type: 'string', maxLength: 120 } },
 });
 analytics.track('pageview');
 document.addEventListener('click', (e) => {

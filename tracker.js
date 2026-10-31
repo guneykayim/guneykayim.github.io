@@ -3,10 +3,26 @@
 //   import { createTracker } from './tracker.js';
 //   const t = createTracker({ endpoint: '/api/event', siteToken: '...' });
 //   t.track('pageview');
-//   t.track('game_started', { board_size: '6x6', theme: 'flags', player_count: 2, mode: 'local' });
-//   // A website with a declared spec counts clicks per link instead:
+//   // Each site declares its OWN property spec — the tracker ships
+//   // with none. A game might declare board/theme spec like this:
+//   //   createTracker({ siteToken, propertySpec: { size: { values: ['s', 'm', 'l'] } } })
+//   //   t.track('game_started', { size: 'm' });
+//   // A website counting clicks per link declares instead:
 //   //   createTracker({ siteToken, propertySpec: { link: { values: ['github', 'substack'] } } })
 //   //   t.track('link_click', { link: 'github' });
+//
+// Link clicks without code: when the site's declared spec has a
+// `link` property, the tracker listens for clicks (one delegated
+// listener) and fires link_click for any element carrying
+// data-tinkerer-link="<value>" — including clicks on children of
+// that element. Values outside a declared enum are ignored, so a
+// stray attribute can never mint an unattributed click. Turn it
+// off with `autoLinkClicks: false`.
+//
+// Pages and Sources without code: when the site's declared spec
+// includes `path` and/or `source` string properties, pageviews
+// carry them automatically (the page's pathname, and the
+// referrer's host or '(direct)'); see track() for the rules.
 //
 // As a classic script it also sets window.AnalyticsTracker = { createTracker, ALLOWED_EVENTS }.
 // The tracker NEVER sets or reads a cookie, NEVER sends an IP address,
@@ -30,69 +46,45 @@ export const ALLOWED_EVENTS = [
 
 // Bounded properties only. Anything else is dropped client-side as
 // defence in depth; the Worker rejects it server-side as well.
-export const ALLOWED_PROPERTIES = {
-  board_size: ['4x4', '6x6', '8x8', '10x10'],
-  theme: ['pokemon', 'emoji', 'disney', 'flags', 'spanish'],
-  mode: ['local'], // Pilot scope: local only. Online is excluded in the pilot.
-  // player_count and extra_turn are validated by type/range below.
-};
-
-// With no spec, the pilot property set above applies. A tracker
-// created with `propertySpec` (the same declarative shape the Worker
-// validates against: { key: {values:[...]} | {type:'integer',min,max}
-// | {type:'boolean'} | {type:'string'} }) sanitises against that
-// instead — e.g. a website declaring { link: { values: [...] } } for
-// its link_click events.
+//
+// Properties are PER SITE, declared by the calling site — never by
+// this framework. A tracker is created with `propertySpec` (the
+// same declarative shape the Worker validates against:
+// { key: {values:[...]} | {type:'integer',min,max} | {type:'boolean'}
+// | {type:'string'} }) and sanitises against exactly that. With no
+// spec declared, NO properties pass — the tracker has no built-in
+// knowledge of any app's property names or values. (An earlier
+// pilot default borrowed the first game's property set; the owner
+// removed it on 2026-10-29.)
+// game_id is handled separately (see createTracker): it is a
+// per-game random id, not a visitor identifier, and is only used
+// for lifecycle plausibility within that one game.
 export function sanitizeProperties(input, spec) {
   if (!input || typeof input !== 'object') return {};
-  if (spec && typeof spec === 'object') {
-    const out = {};
-    for (const [key, value] of Object.entries(input)) {
-      const rule = spec[key];
-      if (!rule) continue;
-      if (Array.isArray(rule.values)) {
-        if (rule.values.includes(value)) out[key] = value;
-      } else if (rule.type === 'integer') {
-        if (
-          Number.isInteger(value) &&
-          (!Number.isFinite(rule.min) || value >= rule.min) &&
-          (!Number.isFinite(rule.max) || value <= rule.max)
-        ) {
-          out[key] = value;
-        }
-      } else if (rule.type === 'boolean') {
-        if (typeof value === 'boolean') out[key] = value;
-      } else if (rule.type === 'string') {
-        if (typeof value === 'string' && value.length && value.length <= 64) {
-          out[key] = value;
-        }
+  if (!spec || typeof spec !== 'object') return {};
+  const out = {};
+  for (const [key, value] of Object.entries(input)) {
+    const rule = spec[key];
+    if (!rule) continue;
+    if (Array.isArray(rule.values)) {
+      if (rule.values.includes(value)) out[key] = value;
+    } else if (rule.type === 'integer') {
+      if (
+        Number.isInteger(value) &&
+        (!Number.isFinite(rule.min) || value >= rule.min) &&
+        (!Number.isFinite(rule.max) || value <= rule.max)
+      ) {
+        out[key] = value;
+      }
+    } else if (rule.type === 'boolean') {
+      if (typeof value === 'boolean') out[key] = value;
+    } else if (rule.type === 'string') {
+      const max = Number.isFinite(rule.maxLength) ? rule.maxLength : 64;
+      if (typeof value === 'string' && value.length && value.length <= max) {
+        out[key] = value;
       }
     }
-    return out;
   }
-  const out = {};
-  if (ALLOWED_PROPERTIES.board_size.includes(input.board_size)) {
-    out.board_size = input.board_size;
-  }
-  if (ALLOWED_PROPERTIES.theme.includes(input.theme)) {
-    out.theme = input.theme;
-  }
-  if (ALLOWED_PROPERTIES.mode.includes(input.mode)) {
-    out.mode = input.mode;
-  }
-  if (
-    Number.isInteger(input.player_count) &&
-    input.player_count >= 1 &&
-    input.player_count <= 4
-  ) {
-    out.player_count = input.player_count;
-  }
-  if (typeof input.extra_turn === 'boolean') {
-    out.extra_turn = input.extra_turn;
-  }
-  // game_id is handled separately (see createTracker): it is a
-  // per-game random id, not a visitor identifier, and is only used
-  // for lifecycle plausibility within that one game.
   return out;
 }
 
@@ -118,12 +110,48 @@ export function createTracker(options = {}) {
   const fetchImpl =
     options.fetchImpl ||
     (typeof fetch !== 'undefined' ? fetch.bind(globalThis) : null);
+  // Local rigs never emit: on localhost / 127.0.0.1 / ::1 the
+  // tracker is disabled by default, so dev servers and automated
+  // test rigs make no network call at all. (A failed analytics
+  // request would otherwise surface as a console error in the
+  // host page — analytics must stay invisible to its host, and
+  // local origins are rejected server-side anyway.) An explicit
+  // `enabled` option wins over the default in either direction.
+  const host =
+    typeof window !== 'undefined' && window.location
+      ? window.location.hostname
+      : '';
+  const isLocalHost =
+    host === 'localhost' || host === '127.0.0.1' || host === '::1';
+  const enabled =
+    typeof options.enabled === 'boolean' ? options.enabled : !isLocalHost;
   let currentGameId = null;
   const propertySpec = options.propertySpec || null;
+  const doc =
+    options.document ||
+    (typeof document !== 'undefined' ? document : null);
   let defaultProperties = sanitizeProperties(
     options.defaultProperties || {},
     propertySpec,
   );
+
+  // The source of a pageview, from the browser's referrer:
+  // host only, '(direct)' for no referrer, null for same-site
+  // navigation (not a source). Never the full referrer URL.
+  function referrerSource() {
+    if (!doc || !doc.referrer) return '(direct)';
+    try {
+      const host = new URL(doc.referrer).hostname;
+      if (!host) return '(direct)';
+      const own =
+        typeof window !== 'undefined' && window.location
+          ? window.location.hostname
+          : '';
+      return host === own ? null : host;
+    } catch {
+      return '(direct)';
+    }
+  }
 
   function configure(next = {}) {
     if (next.defaultProperties) {
@@ -146,6 +174,7 @@ export function createTracker(options = {}) {
   // resolves { status: 'dropped', reason: 'offline_or_failed' } so a
   // game can continue exactly as if tracking did not exist.
   async function track(event, properties = {}) {
+    if (!enabled) return { status: 'dropped', reason: 'disabled', event };
     const clean = sanitizeProperties(properties, propertySpec);
     const page =
       typeof properties.page === 'string' && properties.page.length <= 256
@@ -153,6 +182,27 @@ export function createTracker(options = {}) {
         : typeof window !== 'undefined' && window.location
           ? window.location.pathname
           : '/test-client';
+
+    // Automatic page dimensions: when the site's declared spec
+    // includes `path` and/or `source` string properties, a
+    // pageview carries them without the host page writing any
+    // code; that declaration plus a count_by pair is what turns
+    // on the dashboard's Pages / Sources tables. `path` is the
+    // pathname only, never the query string. `source` is the
+    // referrer's HOST only, never the full URL; '(direct)' when
+    // there is no referrer; omitted for same-site navigation,
+    // which is not a source. Explicit properties always win.
+    const auto = {};
+    if (event === 'pageview' && propertySpec) {
+      if (propertySpec.path && typeof clean.path === 'undefined') {
+        auto.path = page;
+      }
+      if (propertySpec.source && typeof clean.source === 'undefined') {
+        const src = referrerSource();
+        if (src) auto.source = src;
+      }
+    }
+    const autoClean = sanitizeProperties(auto, propertySpec);
 
     // Lifecycle: a fresh game gets a fresh id; later moves in the
     // same game reuse it. An explicit properties.game_id (used only
@@ -176,13 +226,13 @@ export function createTracker(options = {}) {
       site_token: siteToken,
       event,
       page,
-      properties: { ...defaultProperties, ...clean },
+      properties: { ...defaultProperties, ...autoClean, ...clean },
     };
     if (gameId) payload.game_id = gameId;
     // Referrer is taken from the browser, not from game code, and
     // is only used for bot/referrer-spam filtering on the server.
-    if (typeof document !== 'undefined' && document.referrer) {
-      payload.referrer = document.referrer.slice(0, 512);
+    if (doc && doc.referrer) {
+      payload.referrer = doc.referrer.slice(0, 512);
     }
 
     if (!fetchImpl) {
@@ -212,6 +262,44 @@ export function createTracker(options = {}) {
     } catch {
       return { status: 'dropped', reason: 'offline_or_failed', event };
     }
+  }
+
+  // Data-attribute link clicks (see the header note): one
+  // delegated listener, active only when the site declared a
+  // `link` property — a pageview-only site stays silent even if
+  // its markup happens to carry the attribute.
+  if (
+    doc &&
+    typeof doc.addEventListener === 'function' &&
+    options.autoLinkClicks !== false &&
+    propertySpec &&
+    propertySpec.link
+  ) {
+    doc.addEventListener('click', (event) => {
+      const target = event && event.target;
+      if (!target) return;
+      let el = null;
+      if (typeof target.closest === 'function') {
+        el = target.closest('[data-tinkerer-link]');
+      } else {
+        el = target;
+        while (
+          el &&
+          !(
+            typeof el.getAttribute === 'function' &&
+            el.getAttribute('data-tinkerer-link')
+          )
+        ) {
+          el = el.parentElement || null;
+        }
+      }
+      if (!el || typeof el.getAttribute !== 'function') return;
+      const value = el.getAttribute('data-tinkerer-link');
+      if (!value) return;
+      const rule = propertySpec.link;
+      if (Array.isArray(rule.values) && !rule.values.includes(value)) return;
+      track('link_click', { link: value });
+    });
   }
 
   return { track, configure, resetGame, getCurrentGameId };
