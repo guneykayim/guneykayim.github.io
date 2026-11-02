@@ -24,7 +24,9 @@
 // carry them automatically (the page's pathname, and the
 // referrer's host or '(direct)'); see track() for the rules.
 //
-// As a classic script it also sets window.AnalyticsTracker = { createTracker, ALLOWED_EVENTS }.
+// This is an ES module (it uses export, so loading it as a
+// classic script is a syntax error); when it runs in a browser
+// it also sets window.AnalyticsTracker = { createTracker, ALLOWED_EVENTS }.
 // The tracker NEVER sets or reads a cookie, NEVER sends an IP address,
 // NEVER sends a raw user agent, and NEVER sends player names, face ids,
 // match lists or per-player scores. The browser sends IP/UA headers
@@ -126,6 +128,32 @@ export function createTracker(options = {}) {
   const enabled =
     typeof options.enabled === 'boolean' ? options.enabled : !isLocalHost;
   let currentGameId = null;
+  // Source attribution is per document, not per pageview: only
+  // the first pageview a tracker instance sends may carry the
+  // external (or direct) source. Browsers never update
+  // document.referrer during client-side navigation, so without
+  // this rule every route change in a single-page app would
+  // re-attribute the visit to the landing referrer, inflating
+  // that source relative to multi-page sites, where only the
+  // entry pageview carries it. Later pageviews in the same
+  // document are same-site navigation and omit `source`.
+  let sourceAttributed = false;
+  // UTM campaign tags ride on the same landing-attribution
+  // discipline as source: they describe how the visit ARRIVED,
+  // so only the document's first pageview may carry them, read
+  // from that pageview's own URL (v1.12.0). A single-page app
+  // navigating to a tagged URL mid-session does not
+  // re-attribute the visit, and an explicit utm property on the
+  // entry pageview consumes the attribution, exactly like an
+  // explicit source does.
+  const UTM_KEYS = [
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
+    'utm_content',
+    'utm_term',
+  ];
+  let utmAttributed = false;
   const propertySpec = options.propertySpec || null;
   const doc =
     options.document ||
@@ -150,6 +178,29 @@ export function createTracker(options = {}) {
       return host === own ? null : host;
     } catch {
       return '(direct)';
+    }
+  }
+
+  // The utm_* values on the current URL (all five keys; the
+  // caller picks the declared ones). Values are the raw query
+  // values: sanitizeProperties applies the declared string rules
+  // (including the length cap) before anything is sent.
+  function utmParams() {
+    try {
+      const search =
+        typeof window !== 'undefined' && window.location
+          ? window.location.search
+          : '';
+      if (!search) return {};
+      const params = new URLSearchParams(search);
+      const out = {};
+      for (const key of UTM_KEYS) {
+        const value = params.get(key);
+        if (typeof value === 'string' && value.trim()) out[key] = value;
+      }
+      return out;
+    } catch {
+      return {};
     }
   }
 
@@ -191,15 +242,41 @@ export function createTracker(options = {}) {
     // pathname only, never the query string. `source` is the
     // referrer's HOST only, never the full URL; '(direct)' when
     // there is no referrer; omitted for same-site navigation,
-    // which is not a source. Explicit properties always win.
+    // which is not a source. Only the first pageview in a
+    // document may carry a source at all (see sourceAttributed
+    // above). Explicit properties always win. The same block
+    // carries the utm_* campaign tags the spec declares, read
+    // from the landing URL under the same first-pageview rule
+    // (see utmAttributed above).
     const auto = {};
     if (event === 'pageview' && propertySpec) {
       if (propertySpec.path && typeof clean.path === 'undefined') {
         auto.path = page;
       }
-      if (propertySpec.source && typeof clean.source === 'undefined') {
-        const src = referrerSource();
-        if (src) auto.source = src;
+      if (propertySpec.source) {
+        if (typeof clean.source !== 'undefined') {
+          // An explicit source attributes this document's entry
+          // just as an automatic one would.
+          sourceAttributed = true;
+        } else if (!sourceAttributed) {
+          sourceAttributed = true;
+          const src = referrerSource();
+          if (src) auto.source = src;
+        }
+      }
+      if (
+        !utmAttributed &&
+        UTM_KEYS.some((key) => propertySpec[key])
+      ) {
+        utmAttributed = true;
+        if (!UTM_KEYS.some((key) => typeof clean[key] !== 'undefined')) {
+          const utm = utmParams();
+          for (const key of UTM_KEYS) {
+            if (propertySpec[key] && typeof utm[key] !== 'undefined') {
+              auto[key] = utm[key];
+            }
+          }
+        }
       }
     }
     const autoClean = sanitizeProperties(auto, propertySpec);
