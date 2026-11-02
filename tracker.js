@@ -44,6 +44,10 @@ export const ALLOWED_EVENTS = [
   'game_started',
   'game_first_move',
   'game_completed',
+  // Sent automatically by the tracker itself (see the
+  // goodbye block in createTracker); hosts never call
+  // track('goodbye') by hand.
+  'goodbye',
 ];
 
 // Bounded properties only. Anything else is dropped client-side as
@@ -158,10 +162,100 @@ export function createTracker(options = {}) {
   const doc =
     options.document ||
     (typeof document !== 'undefined' ? document : null);
+  const win =
+    options.window ||
+    (typeof window !== 'undefined' ? window : null);
+  const beaconImpl =
+    options.beaconImpl ||
+    (typeof navigator !== 'undefined' &&
+    typeof navigator.sendBeacon === 'function'
+      ? navigator.sendBeacon.bind(navigator)
+      : null);
   let defaultProperties = sanitizeProperties(
     options.defaultProperties || {},
     propertySpec,
   );
+
+  // The goodbye signal (v1.21.0): when the page hides or
+  // closes, the tracker sends one final automatic event
+  // reporting how long the current page was actually
+  // VISIBLE, so the server can count the last page's
+  // dwell in the visit's duration. The clock runs only
+  // while the page is visible (a background tab does not
+  // inflate it) and resets at every pageview. Delivery is
+  // sendBeacon, the API built for unload-time requests,
+  // with a keepalive fetch as the fallback. Hosts never
+  // send it by hand, and the server never counts it as
+  // an event: it only refines an open visit's duration.
+  let pageviewSeen = false;
+  let pageVisibleMs = 0;
+  let visibleSince = null;
+  function pageIsVisible() {
+    return !doc || !doc.visibilityState || doc.visibilityState === 'visible';
+  }
+  function clockResume() {
+    if (visibleSince === null && pageIsVisible()) visibleSince = Date.now();
+  }
+  function clockPause() {
+    if (visibleSince !== null) {
+      pageVisibleMs += Date.now() - visibleSince;
+      visibleSince = null;
+    }
+  }
+  function clockReset() {
+    pageVisibleMs = 0;
+    visibleSince = pageIsVisible() ? Date.now() : null;
+  }
+  function currentVisibleS() {
+    const extra = visibleSince !== null ? Date.now() - visibleSince : 0;
+    return (pageVisibleMs + extra) / 1000;
+  }
+  function sendGoodbye() {
+    if (!enabled || !pageviewSeen) return;
+    clockPause();
+    const payload = {
+      site_token: siteToken,
+      event: 'goodbye',
+      page:
+        win && win.location ? win.location.pathname : '/test-client',
+      properties: {},
+      visible_s: Math.round(currentVisibleS() * 1000) / 1000,
+    };
+    if (doc && doc.referrer) {
+      payload.referrer = doc.referrer.slice(0, 512);
+    }
+    const body = JSON.stringify(payload);
+    try {
+      if (beaconImpl && beaconImpl(endpoint, body)) return;
+    } catch {
+      // fall through to the fetch fallback
+    }
+    if (fetchImpl) {
+      try {
+        const p = fetchImpl(endpoint, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body,
+          keepalive: true,
+        });
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+      } catch {
+        // Fire-and-forget: a failed goodbye changes nothing.
+      }
+    }
+  }
+  clockResume();
+  if (doc && typeof doc.addEventListener === 'function') {
+    doc.addEventListener('visibilitychange', () => {
+      if (pageIsVisible()) clockResume();
+      else sendGoodbye();
+    });
+  }
+  if (win && typeof win.addEventListener === 'function') {
+    win.addEventListener('pagehide', () => {
+      sendGoodbye();
+    });
+  }
 
   // The source of a pageview, from the browser's referrer:
   // host only, '(direct)' for no referrer, null for same-site
@@ -226,6 +320,12 @@ export function createTracker(options = {}) {
   // game can continue exactly as if tracking did not exist.
   async function track(event, properties = {}) {
     if (!enabled) return { status: 'dropped', reason: 'disabled', event };
+    if (event === 'pageview') {
+      // A new page starts a new visible-time clock for
+      // the goodbye signal (see above).
+      pageviewSeen = true;
+      clockReset();
+    }
     const clean = sanitizeProperties(properties, propertySpec);
     const page =
       typeof properties.page === 'string' && properties.page.length <= 256
